@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ranch Holdings — Farm Management</title>
+  <meta name="description"
+    content="Farm management dashboard for Ranch Holdings. Monitor animals, barns, tools and employees." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <div class="brand-icon">🐄</div>
+          <div class="brand-text">
+            <span class="brand-name">Ranch Holdings</span>
+            <span class="brand-sub">Farm Management</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Overview</div>
+        <div class="nav-item active" id="nav-dashboard" onclick="showSection('dashboard')">
+          <span class="nav-icon">📊</span> Dashboard
+        </div>
+
+        <div class="nav-section-label">Data</div>
+        <div class="nav-item" id="nav-animals" onclick="showSection('animals')">
+          <span class="nav-icon">🐖</span> Animals
+        </div>
+        <div class="nav-item" id="nav-barntools" onclick="showSection('barntools')">
+          <span class="nav-icon">🔧</span> Barn Tools
+        </div>
+        <div class="nav-item" id="nav-toolusage" onclick="showSection('toolusage')">
+          <span class="nav-icon">👷</span> Tool Usage
+        </div>
+
+        <div class="nav-section-label">Architecture</div>
+        <div class="nav-item" id="nav-arch" onclick="showSection('arch')">
+          <span class="nav-icon">🗺️</span> System Design
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="db-badge">
+          <div class="db-dot" id="db-dot"></div>
+          <div>
+            <div class="db-label">Oracle 23c Free</div>
+            <div class="db-name">localhost:1521</div>
+          </div>
+        </div>
+        <p style="margin-top: 12px; font-size: 10px; color: var(--text-muted); text-align: center; letter-spacing: 0.04em;">
+          Antonio Iammarino
+        </p>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="main-content">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title" id="topbar-title">Dashboard</div>
+          <div class="topbar-subtitle" id="topbar-subtitle">Farm overview and statistics</div>
+        </div>
+        <div class="topbar-right">
+          <div class="search-box">
+            <span>🔍</span>
+            <input type="text" id="global-search" placeholder="Search…" oninput="onSearch(this.value)" />
+          </div>
+        </div>
+      </div>
+
+      <div class="page-content">
+
+        <!-- DASHBOARD -->
+        <div class="section active" id="section-dashboard">
+          <div class="stats-grid" id="stats-grid">
+            <div class="stat-card">
+              <div class="state-box">
+                <div class="spinner"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="state-box">
+                <div class="spinner"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="state-box">
+                <div class="spinner"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="state-box">
+                <div class="spinner"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="state-box">
+                <div class="spinner"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">🗄️ Object-Relational Schema</div>
+              <span class="panel-badge">Oracle 23c Free</span>
+            </div>
+            <div
+              style="padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">
+              <div class="stat-card" style="padding: 14px;">
+                <div
+                  style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px;">
+                  Object Tables</div>
+                <div style="font-size: 13px; color: var(--text-secondary); line-height: 2;">
+                  <code style="color:var(--accent-light)">animals</code> OF t_animal<br>
+                  <code style="color:var(--accent-light)">barns</code> OF t_barn<br>
+                  <code style="color:var(--accent-light)">tools</code> OF t_tool<br>
+                  <code style="color:var(--accent-light)">employees</code> OF t_employee
+                </div>
+              </div>
+              <div class="stat-card" style="padding: 14px;">
+                <div
+                  style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px;">
+                  REF Columns</div>
+                <div style="font-size: 13px; color: var(--text-secondary); line-height: 2;">
+                  <code style="color:var(--info)">animal.barn_ref</code><br>
+                  <code style="color:var(--info)">tool.barn_ref</code><br>
+                  <code style="color:var(--info)">usage.tool_ref</code>
+                </div>
+              </div>
+              <div class="stat-card" style="padding: 14px;">
+                <div
+                  style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px;">
+                  Views Used</div>
+                <div style="font-size: 13px; color: var(--text-secondary); line-height: 2;">
+                  <code style="color:var(--success)">v_barn_tools</code><br>
+                  <code style="color:var(--success)">v_employee_tool</code>
+                </div>
+              </div>
+              <div class="stat-card" style="padding: 14px;">
+                <div
+                  style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px;">
+                  Indexes</div>
+                <div style="font-size: 13px; color: var(--text-secondary); line-height: 2;">
+                  <code style="color:var(--warning)">idx_tools_barn_ref</code><br>
+                  <code style="color:var(--warning)">SYS_FK… NTID</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ANIMALS -->
+        <div class="section" id="section-animals">
+          <div class="section-intro">
+            <h2>Animals</h2>
+            <p>All animals registered on the farm, with barn assignment via DEREF on <code>barn_ref</code>.</p>
+            <span class="sql-tag">SELECT a.*, DEREF(a.barn_ref).* FROM animals a</span>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">🐄 Animal Registry</div>
+              <span class="panel-badge" id="animals-count">—</span>
+            </div>
+            <div class="filter-bar">
+              <select class="filter-select" id="filter-animal-type" onchange="filterAnimals()">
+                <option value="">All types</option>
+                <option value="Horse">🐴 Horse</option>
+                <option value="Cattle">🐄 Cattle</option>
+                <option value="Swine">🐖 Swine</option>
+              </select>
+              <select class="filter-select" id="filter-animal-sex" onchange="filterAnimals()">
+                <option value="">All sexes</option>
+                <option value="M">♂ Male</option>
+                <option value="F">♀ Female</option>
+              </select>
+            </div>
+            <div class="table-wrap">
+              <table id="animals-table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Type</th>
+                    <th>Sex</th>
+                    <th>Weight (kg)</th>
+                    <th>Birth</th>
+                    <th>Last Shoeing</th>
+                    <th>Barn</th>
+                    <th>Location</th>
+                  </tr>
+                </thead>
+                <tbody id="animals-tbody">
+                  <tr>
+                    <td colspan="8">
+                      <div class="state-box">
+                        <div class="spinner"></div><span class="state-text">Loading…</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- BARN TOOLS -->
+        <div class="section" id="section-barntools">
+          <div class="section-intro">
+            <h2>Barn Tools</h2>
+            <p>Tools available in each barn. Data sourced from the <strong>v_barn_tools</strong> view using DEREF on
+              <code>barn_ref</code>.</p>
+            <span class="sql-tag">SELECT * FROM v_barn_tools</span>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">🔧 Tool Inventory by Barn</div>
+              <span class="panel-badge" id="barntools-count">—</span>
+            </div>
+            <div class="filter-bar">
+              <select class="filter-select" id="filter-barn" onchange="filterBarnTools()">
+                <option value="">All barns</option>
+              </select>
+              <select class="filter-select" id="filter-tool-type" onchange="filterBarnTools()">
+                <option value="">All tool types</option>
+              </select>
+            </div>
+            <div class="table-wrap">
+              <table id="barntools-table">
+                <thead>
+                  <tr>
+                    <th>Barn ID</th>
+                    <th>Location</th>
+                    <th>Area (m²)</th>
+                    <th>Tool Code</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Price (€)</th>
+                  </tr>
+                </thead>
+                <tbody id="barntools-tbody">
+                  <tr>
+                    <td colspan="7">
+                      <div class="state-box">
+                        <div class="spinner"></div><span class="state-text">Loading…</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TOOL USAGE -->
+        <div class="section" id="section-toolusage">
+          <div class="section-intro">
+            <h2>Tool Usage History</h2>
+            <p>Tool usage records per employee via the <strong>v_employee_tool</strong> view — double DEREF chain: usage
+              → tool → barn.</p>
+            <span class="sql-tag">SELECT * FROM v_employee_tool</span>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">👷 Employee Tool Usage</div>
+              <span class="panel-badge" id="toolusage-count">—</span>
+            </div>
+            <div class="filter-bar">
+              <select class="filter-select" id="filter-employee" onchange="filterToolUsage()">
+                <option value="">All employees</option>
+              </select>
+            </div>
+            <div class="table-wrap">
+              <table id="toolusage-table">
+                <thead>
+                  <tr>
+                    <th>Employee</th>
+                    <th>Tax Code</th>
+                    <th>Date Used</th>
+                    <th>Tool Code</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Barn</th>
+                    <th>Location</th>
+                  </tr>
+                </thead>
+                <tbody id="toolusage-tbody">
+                  <tr>
+                    <td colspan="8">
+                      <div class="state-box">
+                        <div class="spinner"></div><span class="state-text">Loading…</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ARCH -->
+        <div class="section" id="section-arch">
+          <div class="section-intro">
+            <h2>System Architecture</h2>
+            <p>Three-layer architecture connecting a vanilla JS frontend to an Oracle 23c object-relational database via
+              a Python Flask REST API.</p>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">🗺️ Architecture Overview</div>
+            </div>
+            <div style="padding: 32px;">
+              <div class="arch-grid">
+                <div class="arch-box">
+                  <div class="arch-icon-lg">🌐</div>
+                  <div class="arch-label">Frontend</div>
+                  <div class="arch-sub">HTML + CSS + Vanilla JS</div>
+                  <div class="arch-sub" style="margin-top:8px; color:var(--text-muted)">Renders data, handles filtering
+                    and navigation</div>
+                </div>
+                <div class="arch-arrow">⟷<br><span style="font-size:10px;color:var(--text-muted)">HTTP/JSON<br>port
+                    5000</span></div>
+                <div class="arch-box accent-box">
+                  <div class="arch-icon-lg">⚙️</div>
+                  <div class="arch-label">Flask Backend</div>
+                  <div class="arch-sub">Python + python-oracledb</div>
+                  <div class="arch-sub" style="margin-top:8px; color:var(--text-muted)">REST API, query execution, JSON
+                    serialization</div>
+                </div>
+                <div class="arch-arrow">⟷<br><span style="font-size:10px;color:var(--text-muted)">TCP<br>port
+                    1521</span></div>
+                <div class="arch-box">
+                  <div class="arch-icon-lg">🗄️</div>
+                  <div class="arch-label">Oracle 23c Free</div>
+                  <div class="arch-sub">Docker · FREEPDB1</div>
+                  <div class="arch-sub" style="margin-top:8px; color:var(--text-muted)">Object tables, REF, nested
+                    tables, views, indexes</div>
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px;">
+                <div class="stat-card" style="padding:16px;">
+                  <div
+                    style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.07em; margin-bottom:10px;">
+                    API Endpoints</div>
+                  <div style="font-size:12px; line-height:2.2; font-family:'Courier New', monospace;">
+                    <span style="color:var(--success)">GET</span> <span
+                      style="color:var(--text-secondary)">/api/stats</span><br>
+                    <span style="color:var(--success)">GET</span> <span
+                      style="color:var(--text-secondary)">/api/animals</span><br>
+                    <span style="color:var(--success)">GET</span> <span
+                      style="color:var(--text-secondary)">/api/barn-tools</span><br>
+                    <span style="color:var(--success)">GET</span> <span
+                      style="color:var(--text-secondary)">/api/employee-tools</span><br>
+                    <span style="color:var(--success)">GET</span> <span
+                      style="color:var(--text-secondary)">/api/barns</span>
+                  </div>
+                </div>
+                <div class="stat-card" style="padding:16px;">
+                  <div
+                    style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.07em; margin-bottom:10px;">
+                    Oracle OO Features Used</div>
+                  <div style="font-size:12px; line-height:2.2; color:var(--text-secondary);">
+                    <span style="color:var(--accent-light)">■</span> Object types &amp; object tables (OF)<br>
+                    <span style="color:var(--info)">■</span> REF columns + DEREF operator<br>
+                    <span style="color:var(--success)">■</span> Nested tables (t_usage_nt)<br>
+                    <span style="color:var(--warning)">■</span> Views v_barn_tools, v_employee_tool<br>
+                    <span style="color:var(--text-muted)">■</span> B+Tree indexes on barn_ref
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /page-content -->
+    </div><!-- /main-content -->
+  </div><!-- /app-shell -->
+
+  <script src="app.js"></script>
+</body>
+
+</html>
