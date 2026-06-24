@@ -616,8 +616,8 @@ tbody tr:last-child td {
 }
 
 .arch-box.accent-box {
-  border-color: var(--border-accent);
-  box-shadow: 0 0 20px var(--accent-glow);
+  border-color: var(--accent);
+  border-width: 2px;
 }
 
 .arch-icon-lg {

@@ -44,7 +44,7 @@
 
         <div class="nav-section-label">Architecture</div>
         <div class="nav-item" id="nav-arch" onclick="showSection('arch')">
-          <span class="nav-icon">🗺️</span> System Design
+          <span class="nav-icon">💡</span> System Design
         </div>
       </nav>
 
@@ -56,7 +56,8 @@
             <div class="db-name">localhost:1521</div>
           </div>
         </div>
-        <p style="margin-top: 12px; font-size: 10px; color: var(--text-muted); text-align: center; letter-spacing: 0.04em;">
+        <p
+          style="margin-top: 12px; font-size: 10px; color: var(--text-muted); text-align: center; letter-spacing: 0.04em;">
           Antonio Iammarino
         </p>
       </div>
@@ -152,7 +153,6 @@
                   Indexes</div>
                 <div style="font-size: 13px; color: var(--text-secondary); line-height: 2;">
                   <code style="color:var(--warning)">idx_tools_barn_ref</code><br>
-                  <code style="color:var(--warning)">SYS_FK… NTID</code>
                 </div>
               </div>
             </div>
@@ -217,7 +217,8 @@
           <div class="section-intro">
             <h2>Barn Tools</h2>
             <p>Tools available in each barn. Data sourced from the <strong>v_barn_tools</strong> view using DEREF on
-              <code>barn_ref</code>.</p>
+              <code>barn_ref</code>.
+            </p>
             <span class="sql-tag">SELECT * FROM v_barn_tools</span>
           </div>
           <div class="panel">
@@ -316,7 +317,7 @@
 
           <div class="panel">
             <div class="panel-header">
-              <div class="panel-title">🗺️ Architecture Overview</div>
+              <div class="panel-title">💡 Architecture Overview</div>
             </div>
             <div style="padding: 32px;">
               <div class="arch-grid">
@@ -327,9 +328,8 @@
                   <div class="arch-sub" style="margin-top:8px; color:var(--text-muted)">Renders data, handles filtering
                     and navigation</div>
                 </div>
-                <div class="arch-arrow">⟷<br><span style="font-size:10px;color:var(--text-muted)">HTTP/JSON<br>port
-                    5000</span></div>
-                <div class="arch-box accent-box">
+                <div class="arch-arrow">⟷<br><span style="font-size: 8px; color: var(--text-muted)">HTTP/JSON<br><br>port 5000</span></div>
+                <div class="arch-box">
                   <div class="arch-icon-lg">⚙️</div>
                   <div class="arch-label">Flask Backend</div>
                   <div class="arch-sub">Python + python-oracledb</div>
