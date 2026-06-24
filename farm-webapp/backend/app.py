@@ -3,10 +3,14 @@ import sys
 from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 import oracledb
+from dotenv import load_dotenv
 
 # Setup
 app = Flask(__name__, static_folder="../frontend")
 CORS(app)
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 DB_CONFIG = {
